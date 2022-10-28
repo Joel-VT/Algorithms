@@ -55,9 +55,8 @@ const nums4 = [2, 1];
  *    being processed.
  * @returns {Array<number>} The idx where left section of smaller items ends.
  */
-function partition(nums = [], left = 0, right = nums.length - 1) {
+export function partition(nums = [], left = 0, right = nums.length - 1) {
     const pivot = nums[Math.floor((left + right) / 2)];
-    console.log(pivot);
     let i = left;
     let j = right;
     while (i <= j) {
@@ -75,14 +74,9 @@ function partition(nums = [], left = 0, right = nums.length - 1) {
             j--;
         }
     }
-    return nums
+    return i
 }
 
-
-console.log(partition(nums3));
-console.log(partition(nums1));
-console.log(partition(nums2));
-console.log(partition(nums4));
 
 
 

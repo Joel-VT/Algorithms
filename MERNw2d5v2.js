@@ -35,19 +35,10 @@ const expected3 = [6, 3, 2];
 
 
 function kMostFrequent(nums, k) {
-
     let mp = new Map();
+    let results=[];
 
-    // Put count of all the
-    // distinct elements in Map
-    // with element as the key &
-    // count as the value.
     for (let i = 0; i < nums.length; i++) {
-
-        // Get the count for the
-        // element if already present in the
-        // Map or get the default value which is 0.
-
         if (mp.has(nums[i])) {
             mp.set(nums[i], mp.get(nums[i]) + 1)
         } else {
@@ -55,22 +46,24 @@ function kMostFrequent(nums, k) {
         }
     }
 
-    // Create a list from elements of HashMap
     let list = [...mp];
+    console.log(list);
 
-    // Sort the list
-    list.sort((o1, o2) => {
-        if (o1[1] == o2[1])
-            return o2[0] - o1[0];
+    list.sort((a, b) => {
+        if (a[1] == b[1])
+            return b[0] - a[0];
         else
-            return o2[1] - o1[1];
+            return b[1] - a[1];
     })
 
-    console.log(K + " numbers with most occurrences are: ");
-    for (let i = 0; i < k; i++)
-        console.log(list[i][0]);
+
+    for (let i = 0; i < k; i++){
+        results.push(list[i][0]);
+    }
+    
+    return results;
 }
 
-kMostFrequent(nums1, k1);
-kMostFrequent(nums2, k2);
-kMostFrequent(nums3, k3);
+console.log(kMostFrequent(nums1, k1));
+console.log(kMostFrequent(nums2, k2));
+console.log(kMostFrequent(nums3, k3));

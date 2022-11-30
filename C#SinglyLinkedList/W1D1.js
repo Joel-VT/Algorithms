@@ -40,14 +40,106 @@ class SinglyLinkedList {
         /** @type {ListNode|null} */
         this.head = null;
     }
+
+    /**
+     * Removes the last node of this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @returns {any} The data from the node that was removed.
+    */
+    removeBack() { }
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The data to search for in the nodes of this list.
+     * @returns {boolean}
+    */
+    contains(val) { }
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The data to search for in the nodes of this list.
+     * @param {?ListNode} current The current node during the traversal of this list
+     *    or null when the end of the list has been reached.
+     * @returns {boolean}
+    */
+    containsRecursive(val, current = this.head) { }
+
+    // EXTRA
+    /**
+     * Recursively finds the maximum integer data of the nodes in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {ListNode} runner The start or current node during traversal, or null
+     *    when the end of the list is reached.
+     * @param {ListNode} maxNode Keeps track of the node that contains the current
+     *    max integer as it's data.
+     * @returns {?number} The max int or null if none.
+    */
+    recursiveMax(runner = this.head, maxNode = this.head) { }
+
     /**
      * Creates a new node with the given data and inserts that node at the front
-     * of this list.
-     * - Time: (?).
-     * - Space: (?).
+     * of the list.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
      * @param {any} data The data for the new node.
      * @returns {SinglyLinkedList} This list.
     */
+    insertAtFront(data) {
+        const newHead = new ListNode(data);
+        newHead.next = this.head;
+        this.head = newHead;
+        return this;
+    }
+
+    /**
+     * Removes the first node of this list.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
+     * @returns {any} The data from the removed node.
+    */
+    removeHead() {
+        if (this.isEmpty()) {
+            return null;
+        }
+
+        const oldHead = this.head;
+        this.head = oldHead.next;
+        return oldHead.data;
+    }
+
+    /**
+     * Calculates the average of this list.
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(1) constant.
+     * @returns {number|NaN} The average of the node's data.
+     */
+    average() {
+        let runner = this.head;
+        let sum = 0;
+        let cnt = 0;
+
+        while (runner) {
+            cnt++;
+            sum += runner.data;
+            runner = runner.next;
+        }
+
+        /**
+         * Dividing by 0 will give you NaN (Not a Number), so an empty list
+         * will return NaN in this case, it may make sense to allow NaN to be
+         * returned, because the average of an empty list doesn't make sense and
+         * it could be misleading to return 0 since 0 is the average of any
+         * list with a sum of 0 (due to negatives or all zeros).
+         */
+        return sum / cnt;
+    }
+
     /**
      * Determines if this list is empty.
      * - Time: O(1) constant.
@@ -58,74 +150,54 @@ class SinglyLinkedList {
         return this.head === null;
     }
 
-    insertAtFront(data) {
-
-    }
-
-    /**
-     * Removes the first node of this list.
-     * - Time: (?).
-     * - Space: (?).
-     * @returns {any} The data from the removed node.
-    */
-    removeHead() { }
-
-    // EXTRA
-    /**
-     * Calculates the average of this list.
-     * - Time: (?).
-     * - Space: (?).
-     * @returns {number|NaN} The average of the node's data.
-    */
-    average() { 
-        if(this.isEmpty()){
-            return null;
-        }
-        let sum = this.head.data;
-        let count = 1;
-        let runner = this.head.next;
-        while(runner){
-            count++;
-            sum+=runner.data;
-            runner=runner.next;
-        }
-        return sum/count;
-    }
-
-
     /**
      * Creates a new node with the given data and inserts it at the back of
      * this list.
-     * - Time: O(?).
-     * - Space: O(?).
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(1) constant.
      * @param {any} data The data to be added to the new node.
      * @returns {SinglyLinkedList} This list.
     */
     insertAtBack(data) {
-        const newNode = new ListNode(data);
+        const newBack = new ListNode(data);
+
         if (this.isEmpty()) {
-            this.head = newNode;
+            this.head = newBack;
             return this;
         }
+
         let runner = this.head;
+
         while (runner.next !== null) {
             runner = runner.next;
         }
-        runner.next = newNode;
+
+        runner.next = newBack;
         return this;
     }
 
     /**
      * Creates a new node with the given data and inserts it at the back of
      * this list.
-     * - Time: O(?).
-     * - Space: O(?).
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(n) linear due to the call stack.
      * @param {any} data The data to be added to the new node.
      * @param {?ListNode} runner The current node during the traversal of this list
      *    or null when the end of the list has been reached.
      * @returns {SinglyLinkedList} This list.
     */
-    insertAtBackRecursive(data, runner = this.head) { }
+    insertAtBackRecursive(data, runner = this.head) {
+        if (this.isEmpty()) {
+            this.head = new ListNode(data);
+            return this;
+        }
+
+        if (runner.next === null) {
+            runner.next = new ListNode(data);
+            return this;
+        }
+        return this.insertAtBackRecursive(data, runner.next);
+    }
 
     /**
      * Calls insertAtBack on each item of the given array.
@@ -166,13 +238,13 @@ after completing it, uncomment the code.
 */
 const emptyList = new SinglyLinkedList();
 
-// const singleNodeList = new SinglyLinkedList().insertAtBackMany([1]);
-// const biNodeList = new SinglyLinkedList().insertAtBackMany([1, 2]);
-// const firstThreeList = new SinglyLinkedList().insertAtBackMany([1, 2, 3]);
-// const secondThreeList = new SinglyLinkedList().insertAtBackMany([4, 5, 6]);
-// const unorderedList = new SinglyLinkedList().insertAtBackMany([
-//   -5, -10, 4, -3, 6, 1, -7, -2,
-// ]);
+const singleNodeList = new SinglyLinkedList().insertAtBackMany([1]);
+const biNodeList = new SinglyLinkedList().insertAtBackMany([1, 2]);
+const firstThreeList = new SinglyLinkedList().insertAtBackMany([1, 2, 3]);
+const secondThreeList = new SinglyLinkedList().insertAtBackMany([4, 5, 6]);
+const unorderedList = new SinglyLinkedList().insertAtBackMany([
+    -5, -10, 4, -3, 6, 1, -7, -2,
+]);
 
 /* node 4 connects to node 1, back to head */
 // const perfectLoopList = new SinglyLinkedList().insertAtBackMany([1, 2, 3, 4]);
@@ -187,4 +259,4 @@ const emptyList = new SinglyLinkedList();
 // ]);
 
 // Print your list like so:
-// console.log(firstThreeList.toArr());
+console.log(firstThreeList.toArr());

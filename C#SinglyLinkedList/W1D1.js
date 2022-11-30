@@ -47,7 +47,21 @@ class SinglyLinkedList {
      * - Space: O(?).
      * @returns {any} The data from the node that was removed.
     */
-    removeBack() { }
+    removeBack() { 
+        if(this.isEmpty()){
+            return null;
+        }
+        let runner = this.head;
+        if(runner.next===null){
+            this.removeHead();
+        }
+        while(runner.next.next!=null){
+            runner=runner.next;
+        }
+        let temp =runner.next.data;
+        runner.next=null;
+        return temp;
+    }
 
     /**
      * Determines whether or not the given search value exists in this list.
@@ -56,7 +70,17 @@ class SinglyLinkedList {
      * @param {any} val The data to search for in the nodes of this list.
      * @returns {boolean}
     */
-    contains(val) { }
+    contains(val) { 
+        if(this.isEmpty()) return null;
+        let runner=this.head;
+        while(runner){
+            if(runner.data===val){
+                return runner.data;
+            }
+            runner = runner.next;
+        }
+        return null;
+    }
 
     /**
      * Determines whether or not the given search value exists in this list.
@@ -67,7 +91,16 @@ class SinglyLinkedList {
      *    or null when the end of the list has been reached.
      * @returns {boolean}
     */
-    containsRecursive(val, current = this.head) { }
+    containsRecursive(val, current = this.head) { 
+        if(!current){
+            return null;
+        }
+        if(current.data===val){
+            return current.data;
+        }
+
+        return this.containsRecursive(val,current.next);
+    }
 
     // EXTRA
     /**
@@ -80,7 +113,22 @@ class SinglyLinkedList {
      *    max integer as it's data.
      * @returns {?number} The max int or null if none.
     */
-    recursiveMax(runner = this.head, maxNode = this.head) { }
+    recursiveMax(runner = this.head, maxNode = this.head) { 
+        //edgecase
+        // list is empty:
+        if (!maxNode) {
+            return null;
+        }
+        // baseline
+        if (!runner) {
+            return maxNode.data;
+        }
+        //recursive
+        if (runner.data > maxNode.data) {
+            maxNode = runner;
+        }
+        return this.recursiveMax(runner.next, maxNode)
+    }
 
     /**
      * Creates a new node with the given data and inserts that node at the front
@@ -260,3 +308,6 @@ const unorderedList = new SinglyLinkedList().insertAtBackMany([
 
 // Print your list like so:
 console.log(firstThreeList.toArr());
+console.log(firstThreeList.removeBack());
+console.log(firstThreeList.toArr());
+console.log(firstThreeList.containsRecursive(2));

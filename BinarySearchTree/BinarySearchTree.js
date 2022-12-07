@@ -39,6 +39,72 @@ class BinarySearchTree {
     }
 
     /**
+     * Inserts a new node with the given newVal in the right place to preserver
+     * the order of this tree.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {number} newVal The data to be added to a new node.
+     * @returns {BinarySearchTree} This tree.
+     */
+    insert(newVal) {
+        let newNode = new BSTNode(newVal);
+        if (this.isEmpty()) {
+            this.root = newNode;
+            return this;
+        }
+        let runner = this.root;
+        while (runner) {
+            if (runner.data < newVal) {
+                if (runner.right == null) {
+                    runner.right = newNode;
+                    return this;
+                }
+                runner = runner.right
+            } else {
+                if (runner.left == null) {
+                    runner.left = newNode;
+                    return this;
+                }
+                runner = runner.left
+            }
+        }
+    }
+
+
+    /**
+     * Inserts a new node with the given newVal in the right place to preserver
+     * the order of this tree.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {number} newVal The data to be added to a new node.
+     * @param {Node} curr The node that is currently accessed from the tree as
+     *    the tree is being traversed.
+     * @returns {BinarySearchTree} This tree.
+     */
+    insertRecursive(newVal, curr = this.root) {
+        if (!curr) {
+            let newNode = new BSTNode(newVal);
+            curr = newNode;
+            return this;
+        }
+        if (newVal <= curr.data) {
+            if (!curr.left) {
+                let newNode = new BSTNode(newVal);
+                curr.left = newNode;
+                return this;
+            } 
+            return this.insertRecursive(newVal, curr.left)
+        } else {
+            if (!curr.right) {
+                let newNode = new BSTNode(newVal);
+                curr.right = newNode;
+                return this;
+            }
+            return this.insertRecursive(newVal, curr.right)
+        }
+    }
+
+    /**
     * Determines if this tree contains the given searchVal.
     * - Time: O(?).
     * - Space: O(?).
@@ -242,44 +308,47 @@ threeLevelTree.root.right.left = new BSTNode(13);
     4   12 18  24  31  44 66  90
 */
 /***************** Uncomment after insert method is created. ****************/
-// const fullTree = new BinarySearchTree();
-// fullTree
-//   .insert(25)
-//   .insert(15)
-//   .insert(10)
-//   .insert(22)
-//   .insert(4)
-//   .insert(12)
-//   .insert(18)
-//   .insert(24)
-//   .insert(50)
-//   .insert(35)
-//   .insert(70)
-//   .insert(31)
-//   .insert(44)
-//   .insert(66)
-//   .insert(90);
-
-emptyTree.print();
-console.log("isEmpty: ", emptyTree.isEmpty());
-console.log("min: ", emptyTree.min());
-console.log("minRecursive: ", emptyTree.minRecursive());
-console.log("max: ", emptyTree.max());
-console.log("max recursive: ", emptyTree.maxRecursive());
-console.log("Contains: ", emptyTree.contains(2));
+const fullTree = new BinarySearchTree();
+fullTree
+    .insert(25)
+    .insert(15)
+    .insert(10)
+    .insert(22)
+    .insert(4)
+    .insert(12)
+    .insert(18)
+    .insert(24)
+    .insert(50)
+    .insert(35)
+    .insert(70)
+    .insert(31)
+    .insert(44)
+    .insert(66)
+    .insert(90);
+fullTree.insertRecursive(2);
+fullTree.print();
 
 
+// emptyTree.print();
+// console.log("isEmpty: ", emptyTree.isEmpty());
+// console.log("min: ", emptyTree.min());
+// console.log("minRecursive: ", emptyTree.minRecursive());
+// console.log("max: ", emptyTree.max());
+// console.log("max recursive: ", emptyTree.maxRecursive());
+// console.log("Contains: ", emptyTree.contains(2));
 
-twoLevelTree.print();
-console.log("isEmpty: ", twoLevelTree.isEmpty());
-console.log("min: ", twoLevelTree.min());
-console.log("minRecursive: ", twoLevelTree.minRecursive());
-console.log("max: ", twoLevelTree.max());
-console.log("max recursive: ", twoLevelTree.maxRecursive());
 
-threeLevelTree.print();
-console.log("isEmpty: ", threeLevelTree.isEmpty());
-console.log("min: ", threeLevelTree.min());
-console.log("minRecursive: ", threeLevelTree.minRecursive());
-console.log("max: ", threeLevelTree.max());
-console.log("max recursive: ", threeLevelTree.maxRecursive());
+
+// twoLevelTree.print();
+// console.log("isEmpty: ", twoLevelTree.isEmpty());
+// console.log("min: ", twoLevelTree.min());
+// console.log("minRecursive: ", twoLevelTree.minRecursive());
+// console.log("max: ", twoLevelTree.max());
+// console.log("max recursive: ", twoLevelTree.maxRecursive());
+
+// threeLevelTree.print();
+// console.log("isEmpty: ", threeLevelTree.isEmpty());
+// console.log("min: ", threeLevelTree.min());
+// console.log("minRecursive: ", threeLevelTree.minRecursive());
+// console.log("max: ", threeLevelTree.max());
+// console.log("max recursive: ", threeLevelTree.maxRecursive());

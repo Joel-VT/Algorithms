@@ -39,6 +39,61 @@ class BinarySearchTree {
     }
 
     /**
+     * DFS Preorder: (CurrNode, Left, Right)
+     * Converts this BST into an array following Depth First Search preorder.
+     * Example on the fullTree var:
+     * [25, 15, 10, 4, 12, 22, 18, 24, 50, 35, 31, 44, 70, 66, 90]
+     * @param {Node} node The current node during the traversal of this tree.
+     * @param {Array<number>} vals The data that has been visited so far.
+     * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
+     */
+    toArrPreorder(node = this.root, vals = []) {
+        if (node) {
+            vals.push(node.data);
+            this.toArrPreorder(node.Left,vals);
+            this.toArrPreorder(node.Right,vals);
+        }
+        return vals;
+    }
+
+    /**
+     * DFS Inorder: (Left, CurrNode, Right)
+     * Converts this BST into an array following Depth First Search inorder.
+     * See debugger call stack to help understand the recursion.
+     * Example on the fullTree var:
+     * [4, 10, 12, 15, 18, 22, 24, 25, 31, 35, 44, 50, 66, 70, 90]
+     * @param {Node} node The current node during the traversal of this tree.
+     * @param {Array<number>} vals The data that has been visited so far.
+     * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
+     */
+    toArrInorder(node = this.root, vals = []) {
+        if (node) {
+            this.toArrInorder(node.Left,vals);
+            vals.push(node.data);
+            this.toArrInorder(node.Right,vals);
+        }
+        return vals;
+    }
+
+    /**
+     * DFS Postorder (Left, Right, CurrNode)
+     * Converts this BST into an array following Depth First Search postorder.
+     * Example on the fullTree var:
+     * [4, 12, 10, 18, 24, 22, 15, 31, 44, 35, 66, 90, 70, 50, 25]
+     * @param {Node} node The current node during the traversal of this tree.
+     * @param {Array<number>} vals The data that has been visited so far.
+     * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
+     */
+    toArrPostorder(node = this.root, vals = []) {
+        if (node != null) {
+            this.toArrPostorder(node.Left,vals);
+            this.toArrPostorder(node.Right,vals);
+            vals.push(node.data);
+        }
+        return vals;
+    }
+
+    /**
      * Inserts a new node with the given newVal in the right place to preserver
      * the order of this tree.
      * - Time: O(?).
@@ -92,7 +147,7 @@ class BinarySearchTree {
                 let newNode = new BSTNode(newVal);
                 curr.left = newNode;
                 return this;
-            } 
+            }
             return this.insertRecursive(newVal, curr.left)
         } else {
             if (!curr.right) {
@@ -325,8 +380,10 @@ fullTree
     .insert(44)
     .insert(66)
     .insert(90);
-fullTree.insertRecursive(2);
 fullTree.print();
+console.log(fullTree.toArrInorder());
+console.log(fullTree.toArrPostorder());
+console.log(fullTree.toArrPostorder());
 
 
 // emptyTree.print();

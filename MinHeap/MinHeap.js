@@ -23,7 +23,7 @@ class MinHeap {
      * - Space: O(1) constant.
      * @returns {?number} Null if empty.
      */
-    top() { 
+    top() {
         return this.heap[1]
     }
 
@@ -37,7 +37,7 @@ class MinHeap {
      * @param {number} num The num to add.
      */
     insert(num) {
-        this.heap.push(node)
+        this.heap.push(num)
         if (this.heap.length > 1) {
             let current = this.heap.length - 1
             while (current > 1 && this.heap[Math.floor(current / 2)] > this.heap[current]) {
@@ -46,6 +46,24 @@ class MinHeap {
             }
         }
     }
+
+    insert1(num) {
+        this.heap.push(num);
+        let index = this.heap.length - 1;
+        const current = this.heap[index];
+
+        while (index > 0) {
+            let parentIndex = Math.floor((index) / 2);
+            let parent = this.heap[parentIndex];
+
+            if (parent >= current) {
+                this.heap[parentIndex] = current;
+                this.heap[index] = parent;
+                index = parentIndex;
+            } else break;
+        }
+    }
+
 
     /**
      * Logs the tree horizontally with the root on the left and the index in
@@ -67,3 +85,11 @@ class MinHeap {
         this.printHorizontalTree(parentIdx * 2, spaceCnt);
     }
 }
+
+const newMinHeap = new MinHeap();
+newMinHeap.insert(20);
+newMinHeap.insert(1);
+newMinHeap.insert(10);
+newMinHeap.insert(12);
+newMinHeap.insert(24);
+newMinHeap.printHorizontalTree();

@@ -18,6 +18,50 @@ class MinHeap {
     }
 
     /**
+     * Extracts the min num from the heap and then re-orders the heap to
+     * maintain order so the next min is ready to be extracted.
+     * 1. Save the first node to a temp var.
+     * 2. Pop last node off and set idx1 equal to the popped value.
+     * 3. Iteratively swap the old last node that is now at idx1 with it's
+     *    smallest child IF the smallest child is smaller than it.
+     * - Time: O(log n) logarithmic due to shiftDown.
+     * - Space: O(1) constant.
+     * @returns {?number} The min number or null if empty.
+     */
+    extract() {
+        let min = this.heap[1];
+
+        this.heap[1] = this.heap.pop();
+        let index = 1;
+
+        while (true) {
+            var child = index * 2 + 1;
+            var sibling = child - 1;
+            var toSwap = null;
+
+            if (this.heap[index] > this.heap[child]) {
+                toSwap = child;
+            }
+
+            if (this.heap[index] > this.heap[sibling] && (this.heap[child] == null || (this.heap[child] !== null && this.heap[sibling] < this.heap[child]))) {
+                toSwap = sibling;
+            }
+
+            if (toSwap == null) {
+                break;
+            }
+
+            var temp = this.heap[toSwap];
+            this.heap[toSwap] = this.heap[index];
+            this.heap[index] = temp;
+
+            index = toSwap;
+        }
+
+        return min;
+    }
+
+    /**
      * Retrieves the top (minimum number) in the heap without removing it.
      * - Time: O(1) constant.
      * - Space: O(1) constant.
@@ -92,4 +136,6 @@ newMinHeap.insert(1);
 newMinHeap.insert(10);
 newMinHeap.insert(12);
 newMinHeap.insert(24);
+newMinHeap.printHorizontalTree();
+newMinHeap.extract();
 newMinHeap.printHorizontalTree();

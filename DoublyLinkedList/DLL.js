@@ -35,14 +35,14 @@ class DoublyLinkedList {
      */
     insertAtFront(data) {
         let newNode = new ListNode(data);
-        if (this.head == null){
+        if (this.head == null) {
             this.head = newNode;
             this.tail = newNode;
         } else {
             newNode.next = this.head;
             this.head = newNode;
             newNode.next.previous = newNode
-            if (newNode.next.next == null){
+            if (newNode.next.next == null) {
                 this.tail = newNode.next;
             }
         }
@@ -58,7 +58,7 @@ class DoublyLinkedList {
      */
     insertAtBack(data) {
         let newNode = new ListNode(data);
-        if (this.head == null){
+        if (this.head == null) {
             this.head = newNode;
             this.tail = newNode;
         } else {
@@ -76,7 +76,40 @@ class DoublyLinkedList {
      * - Space: O(?).
      * @returns {any} The data of the removed node.
      */
-    removeMiddleNode() { }
+    removeMiddleNode() {
+        //empty list
+        if (this.isEmpty()) {
+            return null;
+        }
+        //only 1 node
+        if (this.head === this.tail) {
+            const returnData = this.head.data;
+            this.head = null;
+            this.tail = null;
+            return returnData;
+        }
+        //only 2 nodes
+        if (this.head.next === this.tail) {
+            const returnData = this.tail.data;
+            this.head.next = null;
+            this.tail = this.head;
+            return returnData;
+        }
+        //set left/right pointers and meet in middle
+        let leftPointer = this.head;
+        let rightPointer = this.tail;
+        while (leftPointer.next !== rightPointer.prev) {
+            leftPointer = leftPointer.next;
+            if (leftPointer.next !== rightPointer.prev) {
+                rightPointer = rightPointer.prev;
+            }
+        }
+        //hold data of removed node and connect outside nodes together
+        const returnData = leftPointer.next.data;
+        leftPointer.next = rightPointer;
+        rightPointer.prev = leftPointer;
+        return returnData;
+    }
 
     /**
      * Determines if this list is empty.

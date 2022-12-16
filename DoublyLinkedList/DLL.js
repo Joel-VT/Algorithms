@@ -28,6 +28,71 @@ class DoublyLinkedList {
 
     /**
      * Creates a new node and adds it at the front of this list.
+     * Inserts a new node with the given newVal after the node that has the
+     * given targetVal as it's data.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} targetVal The node data to find.
+     * @param {any} newVal Data for the new node.
+     * @returns {boolean} Indicates if the new node was added.
+     */
+    insertAfter(targetVal, newVal) {
+        if (this.head == null) {
+            return false;
+        }
+        let runner = this.head;
+        if (this.tail.data == targetVal) {
+            this.insertAtBack(newVal)
+            return true;
+        }
+        while (runner) {
+            if (runner.data == targetVal) {
+                let newNode = new ListNode(newVal);
+                newNode.next = runner.next;
+                newNode.previous = runner;
+                runner.next = newNode;
+                return true;
+            }
+            runner = runner.next;
+        }
+        return false
+    }
+
+    /**
+     * Inserts a new node with the given newVal before the node that has the
+     * given targetVal as it's data.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} targetVal The node data to find.
+     * @param {any} newVal Data for the new node.
+     * @returns {boolean} Indicates if the new node was added.
+     */
+    insertBefore(targetVal, newVal) {
+        if (this.head == null) {
+            return false;
+        }
+        let runner = this.head;
+        if (this.head.data == targetVal) {
+            this.insertAtFront(newVal)
+            return true;
+        }
+        while (runner) {
+            if (runner.data == targetVal) {
+                let newNode = new ListNode(newVal);
+                newNode.previous = runner.previous;
+                newNode.next = runner;
+                runner.previous.next = newNode;
+                runner.previous = newNode;
+                return true;
+            }
+            runner = runner.next;
+        }
+        return false
+    }
+
+
+    /**
+     * Creates a new node and adds it at the front of this list.
      * - Time: O(?).
      * - Space: O(?).
      * @param {any} data The data for the new node.
